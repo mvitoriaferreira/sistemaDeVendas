@@ -1,31 +1,43 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
-    private List<Product> products;
+	private List<Product> products;
+	
+	public ProductServiceImpl() {
+        this.products = new ArrayList<>();
+    }
 
 	@Override
 	public void addProduct(Product product) {
-				
+		products.add(product);
 	}
 
 	@Override
 	public List<Product> getAllProducts() {
-		return null;
+		return new ArrayList<>(products);
 	}
 
 	@Override
 	public Product getProductById(int id) {
+		for (Product product : products) {
+			if (product.getId() == id) {
+				return product;
+			}
+		}
 		return null;
 	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
+	
+	@Override
+    public String toString() {
+        String result = "All products:\n";
+        for (Product product : products) {
+            String productName = product.getName().isEmpty() ? "[No Name]" : product.getName();
+            result += "Name: " + productName + "\n" +
+                      "Price: " + product.getPrice() + "\n";
+        }
+        return result;
+    }
 }
